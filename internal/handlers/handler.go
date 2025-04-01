@@ -4,10 +4,11 @@ import (
 	"net/http"
 	"encoding/json"
 	"go-api/internal/models"
+	"gp-api/internal/services"
 )
 
 func HandleGetUser(w http.ResponseWriter, r *http.Request) {
-	products := models.GetUsers()
+	products := services.GetUsers()
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(products)
 }
@@ -18,13 +19,13 @@ func HandlePostProduct(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	models.CreateProduct(product)
+	createdProduct = services.CreateProduct(product)
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(product)
 }
 
 func HandleGetProducts(w http.ResponseWriter, r *http.Request) {
-	products := models.GetProducts()
+	products := services.GetProducts()
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(products)
 }
