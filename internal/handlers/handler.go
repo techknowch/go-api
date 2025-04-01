@@ -1,31 +1,40 @@
 package handlers
 
 import (
-	"net/http"
-	"encoding/json"
-	"go-api/internal/models"
-	"gp-api/internal/services"
+    "github.com/gin-gonic/gin"
+    "go-api/internal/models"
+    "go-api/internal/services"
+    "net/http"
 )
 
-func HandleGetUser(w http.ResponseWriter, r *http.Request) {
-	products := services.GetUsers()
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(products)
+func HandleGetUser(c *gin.Context) {
+    users, err := services.GetUsers()
+    if err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+        return
+    }
+    c.JSON(http.StatusOK, users)
 }
 
-func HandlePostProduct(w http.ResponseWriter, r *http.Request) {
-	var product models.Product
-	if err := json.NewDecoder(r.Body).Decode(&product); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	createdProduct = services.CreateProduct(product)
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(product)
+func HandlePostProduct(c *gin.Context) {
+    var product models.Product
+    if err := c.ShouldBindJSON(&product); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+    createdProduct, err := services.CreateProduct(product)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+    c.JSON(http.StatusCreated, createdProduct)
 }
 
-func HandleGetProducts(w http.ResponseWriter, r *http.Request) {
-	products := services.GetProducts()
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(products)
+func HandleGetProducts(c *gin.Context) {
+    products, err := services.GetProducts()
+    if err != nil {
+        c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+        return
+    }
+    c.JSON(http.StatusOK, products)
 }

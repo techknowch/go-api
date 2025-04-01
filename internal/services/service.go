@@ -22,3 +22,10 @@ func CreateProduct(product models.Product) (models.Product, error) {
 	products = append(products, product)
 	return product, nil
 }
+
+func GetProducts() ([]models.Product, error) {
+	if len(products) == 0 {
+		return nil, errors.New("no products found")
+	}
+	return products, nil
+}
