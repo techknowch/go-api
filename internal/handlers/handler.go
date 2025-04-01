@@ -7,7 +7,7 @@ import (
 )
 
 func HandleGetUser(w http.ResponseWriter, r *http.Request) {
-	products := models.GetProducts()
+	products := models.GetUsers()
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(products)
 }
@@ -21,4 +21,10 @@ func HandlePostProduct(w http.ResponseWriter, r *http.Request) {
 	models.CreateProduct(product)
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(product)
+}
+
+func HandleGetProducts(w http.ResponseWriter, r *http.Request) {
+	products := models.GetProducts()
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(products)
 }
