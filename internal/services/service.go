@@ -29,3 +29,13 @@ func GetProducts() ([]models.Product, error) {
 	}
 	return products, nil
 }
+
+func DeleteProduct(id string) error {
+	for i, product := range products {
+		if product.ID == id {
+			products = append(products[:i], products[i+1:]...)
+			return nil
+		}
+	}
+	return errors.New("product not found")
+}
