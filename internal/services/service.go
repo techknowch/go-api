@@ -15,6 +15,14 @@ func GetUsers() ([]models.User, error) {
 	return users, nil
 }
 
+func CreateUser(user models.User) (models.User, error) {
+	if user.ID == "" || user.Username == "" || user.Password == "" {
+		return models.User{}, errors.New("invalid user data")
+	}
+	users = append(users, user)
+	return user, nil
+}
+
 func CreateProduct(product models.Product) (models.Product, error) {
 	if product.ID == "" || product.Name == "" {
 		return models.Product{}, errors.New("invalid product data")

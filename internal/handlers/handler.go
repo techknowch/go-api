@@ -16,6 +16,20 @@ func HandleGetUser(c *gin.Context) {
     c.JSON(http.StatusOK, users)
 }
 
+func HandlePostUser(c *gin.Context) {
+	var user models.User
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	createdUser, err := services.CreateUser(user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusCreated, createdUser)
+}
+
 func HandlePostProduct(c *gin.Context) {
     var product models.Product
     if err := c.ShouldBindJSON(&product); err != nil {
