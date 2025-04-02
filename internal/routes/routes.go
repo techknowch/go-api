@@ -12,6 +12,7 @@ func SetupRoutes() *gin.Engine {
     router.POST("/products", handlers.HandlePostProduct)
     router.GET("/products", handlers.HandleGetProducts)
 	router.DELETE("/products/:id", handlers.HandleDeleteProduct)
+	router.GET("/products/:id", handlers.HandleGetProductByID)
 
     return router
 }
