@@ -48,7 +48,7 @@ func DeleteProduct(id string) error {
 	return errors.New("product not found")
 }
 
-function GetProductByID(id string) (models.Product, error) {
+func GetProductByID(id string) (models.Product, error) {
 	for _, product := range products {
 		if product.ID == id {
 			return product, nil
