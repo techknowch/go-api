@@ -48,3 +48,13 @@ func HandleDeleteProduct(c *gin.Context) {
 	}
 	c.JSON(http.StatusNoContent, nil)
 }
+
+func HandleGetProductByID(c *gin.Context) {
+	id := c.Param("id")
+	product, err := services.GetProductByID(id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, product)
+}
